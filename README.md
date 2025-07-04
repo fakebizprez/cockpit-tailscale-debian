@@ -40,6 +40,12 @@ and to make the RPM you need:
 $ sudo dnf install -y rpm-build gettext libappstream-glib
 ```
 
+For Debian/Ubuntu packaging, install:
+
+```bash
+$ sudo apt install -y debhelper devscripts build-essential nodejs npm make gettext
+```
+
 
 #### Cockpit user
 
@@ -68,6 +74,11 @@ $ npm run build
 For the RPM package:
 ```bash
 $ npm run rpm
+```
+
+For the Debian package:
+```bash
+$ make deb
 ```
 
 

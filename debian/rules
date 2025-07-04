@@ -1,0 +1,25 @@
+#!/usr/bin/make -f
+
+export DH_VERBOSE = 1
+
+%:
+	dh $@
+
+override_dh_auto_clean:
+	dh_auto_clean
+	rm -rf dist/
+	rm -rf node_modules/
+	rm -rf pkg/
+	rm -f po/LINGUAS
+
+override_dh_auto_build:
+	# Build the project using the Makefile (without NODE_ENV=production to include dev deps)
+	make all
+
+override_dh_auto_install:
+	make install DESTDIR=$(CURDIR)/debian/cockpit-tailscale PREFIX=/usr
+	# Remove source maps as they are not needed in production
+	find $(CURDIR)/debian/cockpit-tailscale/usr/share/cockpit/ -name '*.map' -delete || true
+
+override_dh_auto_test:
+	# Skip tests for now as they require browser environment

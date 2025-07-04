@@ -2,6 +2,10 @@
 *.retry
 *.tar.xz
 *.rpm
+*.deb
+*.dsc
+*.changes
+*.buildinfo
 node_modules/
 dist/
 /*.spec
@@ -17,3 +21,7 @@ POTFILES*
 tmp/
 /po/LINGUAS
 /tools
+debian/cockpit-tailscale/
+debian/.debhelper/
+debian/debhelper-build-stamp
+debian/files

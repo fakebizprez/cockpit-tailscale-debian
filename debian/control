@@ -1,0 +1,26 @@
+Source: cockpit-tailscale
+Section: admin
+Priority: optional
+Maintainer: Gerard Braad <me@gbraad.nl>
+Build-Depends: debhelper-compat (= 13),
+               nodejs,
+               npm,
+               make,
+               gettext
+Standards-Version: 4.6.0
+Homepage: https://github.com/spotsnel/cockpit-tailscale
+Vcs-Git: https://github.com/spotsnel/cockpit-tailscale.git
+Rules-Requires-Root: no
+
+Package: cockpit-tailscale
+Architecture: all
+Depends: ${misc:Depends},
+         cockpit-bridge
+Recommends: tailscale
+Description: Cockpit application to manage Tailscale
+ This package provides a Cockpit application for managing Tailscale
+ VPN connections. It allows users to view and control Tailscale
+ settings through the Cockpit web interface.
+ .
+ Tailscale is a secure network that just works. It creates a private
+ network that spans multiple cloud regions, offices, and personal devices.
