@@ -8,9 +8,8 @@ export DH_VERBOSE = 1
 override_dh_auto_clean:
 	dh_auto_clean
 	rm -rf dist/
-	rm -rf node_modules/
-	rm -rf pkg/
 	rm -f po/LINGUAS
+	# Don't remove node_modules during clean to avoid rebuild issues
 
 override_dh_auto_build:
 	# Build the project using the Makefile (without NODE_ENV=production to include dev deps)
