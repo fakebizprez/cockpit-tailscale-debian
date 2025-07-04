@@ -1,0 +1,7 @@
+cockpit-tailscale (0.0.6-1) unstable; urgency=medium
+
+  * Initial Debian package
+  * Cockpit application to manage Tailscale VPN connections
+  * Provides web interface for Tailscale configuration and monitoring
+
+ -- Gerard Braad <me@gbraad.nl>  Thu, 04 Jul 2024 01:00:00 +0000
