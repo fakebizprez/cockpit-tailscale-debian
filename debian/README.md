@@ -35,8 +35,8 @@ sudo apt install -y debhelper devscripts build-essential nodejs npm make gettext
 
 1. Clone the repository:
 ```bash
-git clone https://github.com/spotsnel/cockpit-tailscale.git
-cd cockpit-tailscale
+git clone https://github.com/fakebizprez/cockpit-tailscale-debian.git
+cd cockpit-tailscale-debian
 ```
 
 2. Build the Debian package:

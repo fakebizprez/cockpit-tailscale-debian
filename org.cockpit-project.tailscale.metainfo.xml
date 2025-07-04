@@ -11,7 +11,7 @@
   </description>
   <extends>org.cockpit_project.tailscale</extends>
   <launchable type="cockpit-manifest">tailscale</launchable>
-  <url type="homepage">https://github.com/spotsnel/tailscale-cockpit</url>
-  <url type="bugtracker">https://github.com/spotsnel/tailscale-cockpit/issues</url>
+  <url type="homepage">https://github.com/fakebizprez/cockpit-tailscale-debian</url>
+  <url type="bugtracker">https://github.com/fakebizprez/cockpit-tailscale-debian/issues</url>
   <update_contact>me@gbraad.nl</update_contact>
 </component>

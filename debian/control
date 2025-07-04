@@ -8,8 +8,8 @@ Build-Depends: debhelper-compat (= 13),
                make,
                gettext
 Standards-Version: 4.6.0
-Homepage: https://github.com/spotsnel/cockpit-tailscale
-Vcs-Git: https://github.com/spotsnel/cockpit-tailscale.git
+Homepage: https://github.com/fakebizprez/cockpit-tailscale-debian
+Vcs-Git: https://github.com/fakebizprez/cockpit-tailscale-debian.git
 Rules-Requires-Root: no
 
 Package: cockpit-tailscale

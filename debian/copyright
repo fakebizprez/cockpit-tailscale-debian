@@ -1,7 +1,7 @@
 Format: https://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
 Upstream-Name: cockpit-tailscale
 Upstream-Contact: Gerard Braad <me@gbraad.nl>
-Source: https://github.com/spotsnel/cockpit-tailscale
+Source: https://github.com/fakebizprez/cockpit-tailscale-debian
 
 Files: *
 Copyright: 2024 Gerard Braad <me@gbraad.nl>

@@ -4,29 +4,29 @@ Cockpit application to manage Tailscale
 !["Prompt"](https://raw.githubusercontent.com/gbraad/assets/gh-pages/icons/prompt-icon-64.png)
 
 
-A Cockpit application to manage Tailscale 
+A Cockpit application to manage Tailscale with comprehensive packaging support for both RPM and Debian-based distributions.
 
 ![Screenshot](./docs/screenshot.png)
 
+## Features
 
+- Web-based Tailscale management through Cockpit interface
+- Complete Debian/Ubuntu packaging support (`.deb` packages)
+- Existing RPM packaging for Fedora/RHEL/CentOS
+- Comprehensive development environment support
+- CI/CD integration with testing support
 
 Development
 -----------
 
-This repository includes deployment scripts for the Cocpit Tailscale development environment.
-The easiest to get started is by using the following cloud development environments:
-
-  * Open in [Gitpod workspace](https://gitpod.io/#https://github.com/spotsnel/cockpit-tailscale)
-  * Open in [CodeSandbox](https://codesandbox.io/p/github/spotsnel/cockpit-tailscale)
-
-or you can either use a local `devsys`/`almsys`, as published here:
-
-  * https://github.com/gbraad-devenv/fedora
-  * https://github.com/gbraad-devenv/almalinux
+This repository includes complete development environment support for the Cockpit Tailscale application.
+The project supports multiple development workflows:
 
 
 
-### Preparation
+### Prerequisites
+
+#### For RPM-based distributions (Fedora, RHEL, CentOS)
 
 Install the following packages to develop and build:
 
@@ -34,148 +34,133 @@ Install the following packages to develop and build:
 $ sudo dnf install -y make npm
 ```
 
-and to make the RPM you need:
+To build RPM packages, you need:
 
 ```bash
 $ sudo dnf install -y rpm-build gettext libappstream-glib
 ```
 
-For Debian/Ubuntu packaging, install:
+#### For Debian/Ubuntu distributions
+
+Install the required build dependencies:
 
 ```bash
 $ sudo apt install -y debhelper devscripts build-essential nodejs npm make gettext
 ```
 
 
-#### Cockpit user
+#### Cockpit User Setup
 
-If you want to run Cockpit, you need a user with a password:
+If you want to run Cockpit locally, you need a user with a password:
 
 ```bash
 $ sudo dnf install -y passwd
-$ sudo passwd gbraad
+$ sudo passwd $(whoami)
 ```
 
 After which you can use this user to log in to Cockpit.
 
 
-### Build
+### Building
 
-To perform a development build:
+#### Development Build
 ```bash
 $ npm run dev
-````
+```
 
-To perform a production build:
+#### Production Build
 ```bash
 $ npm run build
 ```
 
-For the RPM package:
+#### Package Building
+
+**For RPM packages:**
 ```bash
 $ npm run rpm
 ```
 
-For the Debian package:
+**For Debian packages:**
 ```bash
 $ make deb
 ```
 
+The Debian packaging creates a complete `.deb` package with proper dependencies and metadata, suitable for installation on Debian and Ubuntu systems.
 
-### Cockpit
 
-After the build, copy contents to `/usr/share/cockpit/tailscale`, `/usr/share/local/cockpit/tailscale` or `~/.local/share/cockpit/tailscale`.
+### Installation and Development
 
-#### Link development
+#### Local Installation
+After building, copy the contents to one of these locations:
+- `/usr/share/cockpit/tailscale` (system-wide)
+- `/usr/share/local/cockpit/tailscale` (local system)
+- `~/.local/share/cockpit/tailscale` (user-specific)
 
-For convenience, you can also create a symlink to `~/.local/share/cockpit/tailscale` to `$PWD/dist`. However, you will need to log out and log in because Cockpit caches the page and assets.
+#### Development Environment Setup
 
-To create a link:
-
-```bash
-$ npm run link
-```
-
-And to remove:
+For convenience during development, you can create a symlink:
 
 ```bash
-$ npm run unlink
+$ npm run link    # Creates symlink in ~/.local/share/cockpit/tailscale
+$ npm run unlink  # Removes the symlink
 ```
 
-Note: this only works when the current user also logs in. Otherwise, use the tasks
-`linkusr` and `unlinkusr` which uses `sudo` to create the link in `/usr/local/share/cockpit`.
+For system-wide development links (requires sudo):
+```bash
+$ npm run linkusr    # Creates symlink in /usr/local/share/cockpit/tailscale
+$ npm run unlinkusr  # Removes the symlink
+```
 
+Note: You may need to log out and log back in for Cockpit to recognize changes, as it caches pages and assets.
 
-#### Run Cockpit
+#### Running Cockpit
 
-You can run Cockpit in a container or remote development environment with the following command:
+You can run Cockpit in a container or development environment:
 
 ```bash
 $ npm run cockpit
 ```
 
-You will need to use an account with a password to log in.
+This requires an account with a password to log in.
 
+#### Troubleshooting Origins
 
-#### Origins
-
-If the login fails and you see `bad Origin` errors, you need to modify the `/etc/cockpit/cockpit.conf` file and add something like:
+If login fails with `bad Origin` errors, modify `/etc/cockpit/cockpit.conf`:
 
 ```ini
 [WebService]
-Origins=https://jqgnyj-9090.csb.app
-```
-
-The example shows CodeSandbox. For Gitpod this might look like this:
-```ini
-[WebService]
-Origins=https://9090-spotsnel-cockpittailsca-57e5sbbb0zb.ws-us100.gitpod.io
+Origins=https://your-development-server.domain
 ```
 
 
-### Tailscale systemd image
-You can run this as part of [spotsnel/tailscale-systemd](https://github.com/spotsnel/tailscale-systemd) container image to deploy this inside a Podman machine or similar:
-```bash
-$ tailscale ssh podmandesktop / podman exec -it tailscale-system bash
-# dnf install -y cockpit passwd
-# systemctl enable --now cockpit.socket
-# curl -L https://github.com/spotsnel/cockpit-tailscale/releases/download/v0.0.1/cockpit-tailscale-v0.0.1.tar.gz -o dist.tar.gz
-# tar zxvf dist.tar.gz 
-# mkdir /usr/local/share/cockpit
-# mv dist /usr/local/share/cockpit/tailscale
-# passwd root
-# tailscale up --ssh
-```
+## Debian Packaging
 
-Now you can access the remote cockpit from another host by 'add new host'.
-Note: remote hosts get authenticated over SSH. If you have conflicts, like on WSL, you can serve on `localhost` instead.
+This project now includes comprehensive Debian packaging support. The `debian/` directory contains all necessary files for building `.deb` packages:
 
-`/etc/systemd/system/cockpit.socket.d/listen.conf`
-```ini
-[Socket]
-ListenStream=
-ListenStream=127.0.0.1:9090
-FreeBind=yes
-```
+- **debian/control** - Package metadata and dependencies
+- **debian/rules** - Build rules and packaging instructions  
+- **debian/changelog** - Package version history
+- **debian/copyright** - License and copyright information
+- **debian/README.md** - Detailed Debian packaging documentation
 
-Note: the blank `ListenStream` is intentional as it resets the parameter.
+### Installing from Debian Package
 
-Now set up the forward from the Tailscale client to open port `9090`:
+1. Build the package: `make deb`
+2. Install: `sudo dpkg -i cockpit-tailscale_*.deb`
+3. Fix dependencies if needed: `sudo apt-get install -f`
 
-```bash
-# tailscale serve tcp:9090 tcp://localhost:9090
-# systemctl daemon-reload
-# systemctl restart cockpit.socket
-```
+The package installs files to:
+- `/usr/share/cockpit/tailscale/` - Application files
+- `/usr/share/metainfo/` - AppStream metadata
+- `/usr/share/doc/cockpit-tailscale/` - Documentation
 
-Now you can navigate to the Tailscale IP:
-```
-# tailscale ip -4
-100.113.113.114
-```
+## CI/CD Support
 
-Open https://100.113.113.114:9090.
-
+The project includes CI/CD configuration:
+- **Cirrus CI** configuration for automated testing
+- Support for multiple distributions (Fedora, CentOS)
+- Automated testing with Firefox browser
+- Translation template generation
 
 Authors
 -------
